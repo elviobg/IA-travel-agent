@@ -92,7 +92,6 @@ export class AppService {
     const outputParser = new StringOutputParser();
     const chain = RunnableSequence.from([prompt, llm, outputParser]);
     const result = await chain.invoke({ webContext, relevantDocuments, query});
-    console.log(result);
     return result;
   }
 
@@ -113,10 +112,14 @@ export class AppService {
         obs: step.observation,
       };
     });
+    console.log('-------------------------');
+    console.log('Logs de "pensamento" para adição de contexto')
     console.log(logs);
 
     const retriever = await this.loadData(country);
     const relevantDocs = await this.getRelevantDocs(retriever, question);
+    console.log('-------------------------');
+    console.log('Documentos pré-definidos para adição de contexto')
     console.log(relevantDocs);
 
     const resultFinal = await this.initSpecializedAgent(
@@ -125,6 +128,7 @@ export class AppService {
       logs,
       relevantDocs,
     );
+
     return resultFinal;
   }
 }
