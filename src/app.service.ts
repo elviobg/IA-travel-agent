@@ -7,8 +7,10 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { AgentExecutor, createReactAgent } from 'langchain/agents';
-import type { PromptTemplate } from '@langchain/core/prompts';
+import { PromptTemplate } from '@langchain/core/prompts';
 import { VectorStoreRetriever } from '@langchain/core/vectorstores';
+import { RunnableSequence } from "@langchain/core/runnables";
+import { StringOutputParser } from "@langchain/core/output_parsers";
 
 @Injectable()
 export class AppService {
@@ -77,9 +79,24 @@ export class AppService {
     return relevantDocs;
   }
 
-  async execute(country: string): Promise<string> {
-    const question =
-      'Vou viajar para Londres em agosto de 2024. Quero que faça para um roteiro de viagem para mim com eventos que irão ocorrer na data da viagem e com o preço de passagem de São Paulo para Londres.';
+  async initSpecializedAgent(query, llm, webContext, relevantDocuments) {
+    const promptTemplate = 
+    `Você é um gerente de uma agência de viagens. Sua resposta final deverá ser um roteiro de viagem completo e detalhado.
+    Utilize o contexto de eventos e preços de passagens, os documentos relevantes e o input do usuário para elaborar o roteiro.
+    Contexto: {webContext}
+    Documentos relevantes: {relevantDocuments}
+    Usuário: {query}
+    Assistente:`;
+
+    const prompt = PromptTemplate.fromTemplate(promptTemplate);
+    const outputParser = new StringOutputParser();
+    const chain = RunnableSequence.from([prompt, llm, outputParser]);
+    const result = await chain.invoke({ webContext, relevantDocuments, query});
+    console.log(result);
+    return result;
+  }
+
+  async execute(country: string, question:string): Promise<string> {
     const llm = await this.initChatGPT();
     const agentExecutor = await this.initAgent(llm);
     const result = await agentExecutor.invoke({
@@ -101,6 +118,13 @@ export class AppService {
     const retriever = await this.loadData(country);
     const relevantDocs = await this.getRelevantDocs(retriever, question);
     console.log(relevantDocs);
-    return result.output;
+
+    const resultFinal = await this.initSpecializedAgent(
+      question,
+      llm,
+      logs,
+      relevantDocs,
+    );
+    return resultFinal;
   }
 }
