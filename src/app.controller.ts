@@ -12,8 +12,7 @@ export class AppController {
 
   @Get('init')
   async askChatGPT(): Promise<string> {
-    const question =
-      'Vou viajar para Londres em agosto de 2024. Quero que faça para um roteiro de viagem para mim com eventos que irão ocorrer na data da viagem e com o preço de passagem de São Paulo para Londres.';
-    return this.appService.execute(question);
+    const country = 'Inglaterra';
+    return this.appService.execute(country);
   }
 }
