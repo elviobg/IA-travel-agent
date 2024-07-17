@@ -1,51 +1,25 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Descrição
+Esse projeto foi criado para gerar um agente de viagens que use LLMs (ChatGPT) para criar um roteiro de viagens personalizado, adicionando contexto com através de RAG, adicionando arquivos de pdf com dicas de viagem para locais especificos, também se fez uma busca na internet utilizando o duckduckgo para encontrar preços de passagens e a wikipedia para adicionar mais contexto.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+## Instalação
 
 ```bash
 $ yarn install
 ```
 
-## Running the app
-
+## Running 
+A primeira vez que for rodar deve-se fazer uma cópia do arquivo `config/development.env` e renomeá-lo para `config/local.env` adicionando uma chave válida para usar o api do OPENAI
 ```bash
 # development
 $ yarn run start
 
 # watch mode
 $ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```
+O servidor deve ficar rodando na porta 3000
 
-## Test
+## Testes
+Não implementados ainda
 
 ```bash
 # unit tests
@@ -58,16 +32,76 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Support
+## Como usar
+Após rodar o app como descrito anteriormente pode se chamar o endpoint de `http://localhost/healt-check` para verificar se o app está rodando normalmente.
+Depois disso deve-se chamar o diretório raiz passando os parametros de origem, destino, pais e data 
+no momento só foi adicionado context de 3 países, Inglaterra, Portugal e Alemanha, todos retirados do site dicasdeviagem.com
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Um exemplo de chamada seria:
+`http://localhost/?pais=inglaterra&origem=Salvador&data=Dezembro de 2024&destino=Londres`
 
-## Stay in touch
+Com a seguinte resposta
+```
+Claro, vou preparar um roteiro de viagem para você em Londres em Dezembro de 2024, incluindo eventos sazonais e o preço
+das passagens de Salvador para Londres.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Roteiro de Viagem para Londres em Dezembro de 2024:
+
+Dia 1:
+- Chegada em Londres
+- Check-in no hotel
+- Passeio pela região de Westminster, visitando o Big Ben, o Parlamento e a Abadia de Westminster
+- Jantar em um restaurante local
+
+Dia 2:
+- Café da manhã
+- Visita ao Museu Britânico
+- Almoço em um pub tradicional
+- Tarde livre para compras na Oxford Street
+- Jantar em um restaurante típico de Londres
+
+Dia 3:
+- Café da manhã
+- Visita à Torre de Londres e à Tower Bridge
+- Almoço em um mercado de rua
+- Tarde no bairro de Camden Town, conhecido por suas lojas alternativas e mercados
+- Jantar em um restaurante com culinária internacional
+
+Dia 4:
+- Café da manhã
+- Passeio pelo bairro de Notting Hill, famoso pelas casas coloridas e pelo mercado de Portobello Road
+- Almoço em um café local
+- Tarde no Museu de História Natural
+- Jantar em um restaurante com vista para o Rio Tâmisa
+
+Dia 5:
+- Café da manhã
+- Visita ao Palácio de Buckingham para a troca da guarda
+- Almoço em um restaurante próximo ao Palácio
+- Tarde livre para explorar o bairro de Covent Garden
+- Jantar em um restaurante com música ao vivo
+
+Dia 6:
+- Café da manhã
+- Visita ao Museu de Arte Moderna Tate Modern
+- Almoço em um restaurante com vista para a Catedral de São Paulo
+- Tarde no bairro de South Bank, com suas atrações culturais e gastronômicas
+- Jantar em um restaurante com culinária britânica contemporânea
+
+Dia 7:
+- Café da manhã
+- Últimas compras e passeios pela cidade
+- Check-out do hotel
+- Transfer para o aeroporto
+
+Preço das passagens de Salvador para Londres em Dezembro de 2024:
+- O preço das passagens de ida e volta para Londres em Dezembro de 2024 varia de acordo com a companhia aérea e a
+antecedência da compra. Recomendo pesquisar em sites de busca de passagens aéreas para encontrar as melhores opções
+disponíveis.
+
+Espero que este roteiro seja útil para a sua viagem a Londres em Dezembro de 2024. Aproveite a cidade e os eventos
+sazonais que estarão acontecendo durante a sua estadia!
+```
 
 ## License
-
-Nest is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
