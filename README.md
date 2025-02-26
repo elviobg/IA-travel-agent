@@ -1,5 +1,5 @@
 ## Descrição
-Esse projeto foi criado para gerar um agente de viagens que use LLMs (ChatGPT) para criar um roteiro de viagens personalizado, adicionando contexto com através de RAG, adicionando arquivos de pdf com dicas de viagem para locais especificos, também se fez uma busca na internet utilizando o duckduckgo para encontrar preços de passagens e a wikipedia para adicionar mais contexto.
+Esse projeto foi criado para gerar um agente de viagens que use LLMs (ChatGPT) para criar um roteiro de viagens personalizado, adicionando contexto através de RAG onde foi-se adicionando arquivos de pdf com dicas de viagem para locais especificos, também se fez uma busca na internet utilizando o duckduckgo para encontrar preços de passagens e a wikipedia para adicionar mais contexto.
 
 ## Instalação
 
